@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ML Prediction</title>
+</head>
+
+<body>
+
+<h2>Iris Prediction</h2>
+
+<form id="predictForm">
+
+<input type="text" placeholder="Feature 1" id="f1"><br><br>
+<input type="text" placeholder="Feature 2" id="f2"><br><br>
+<input type="text" placeholder="Feature 3" id="f3"><br><br>
+<input type="text" placeholder="Feature 4" id="f4"><br><br>
+
+<button type="submit">Predict</button>
+
+</form>
+
+<p id="result"></p>
+
+<script>
+
+document.getElementById("predictForm").onsubmit = async function(e){
+
+e.preventDefault()
+
+let features = [
+parseFloat(document.getElementById("f1").value),
+parseFloat(document.getElementById("f2").value),
+parseFloat(document.getElementById("f3").value),
+parseFloat(document.getElementById("f4").value)
+]
+
+let response = await fetch("/predict",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({features:features})
+})
+
+let data = await response.json()
+
+document.getElementById("result").innerText =
+"Prediction: " + data.prediction
+
+}
+
+</script>
+
+</body>
+</html>
